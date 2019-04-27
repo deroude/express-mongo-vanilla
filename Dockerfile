@@ -5,4 +5,4 @@ RUN npm install
 FROM dependencies
 ADD index.js .
 EXPOSE 3000
-ENTRYPOINT [ "node", "index.js" ]
+ENTRYPOINT [ "node", "--experimental-modules", "index.mjs" ]

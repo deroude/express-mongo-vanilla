@@ -1,12 +1,13 @@
 import * as controller from './article.controller.mjs';
+import passport from 'passport';
 
 export default (app) => {
 
-    app.post('/articles', controller.create);
+    app.post('/articles', passport.authenticate('jwt', { session: false }), controller.create);
 
-    app.get('/articles', controller.findAll);
+    app.get('/articles', passport.authenticate('jwt', { session: false }), controller.findAll);
 
-    app.put('/articles/:id', controller.update);
+    app.put('/articles/:id', passport.authenticate('jwt', { session: false }), controller.update);
 
-    app.delete('/articles/:id', controller.deleteById);
+    app.delete('/articles/:id', passport.authenticate('jwt', { session: false }), controller.deleteById);
 }

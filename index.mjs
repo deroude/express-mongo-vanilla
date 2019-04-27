@@ -1,10 +1,13 @@
 import express from 'express';
-import * as config from './config.mjs';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
+import * as config from './config.mjs';
+import './passport.mjs';
+
 import userRoute from './rest/user/user.route.mjs';
 import articleRoute from './rest/article/article.route.mjs';
+import authRoute from './auth.mjs';
 
 const app = express();
 
@@ -21,16 +24,17 @@ app.use(function (req, res, next) {
 mongoose.connect(config.url, {
     useNewUrlParser: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+    console.log("Successfully connected to the database");
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
 });
 
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to ZeptoBook Product app"});
+    res.json({ "message": "Welcome to ZeptoBook Product app" });
 });
 
+authRoute(app);
 userRoute(app);
 articleRoute(app);
 
